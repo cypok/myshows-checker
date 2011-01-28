@@ -1,17 +1,11 @@
 #!/usr/bin/env ruby
 
-# Receives filenames as arguments, tries to parse them as series episode names and
-# checks them on http://myshows.ru
-#
-# User name and md5(password) should be written into ~/.myshows line by line
-
 require 'rubygems'
 require 'myshows'
 
 def msg(text); puts text end
 def err(text); puts "Error: #{text}" end
 
-# Returns show name, number of season, number of episode
 def parse_filename(filename)
   sep = /[. _]/
   filename =~ /^(.*)#{sep}s(\d{1,2})#{sep}?e(\d{1,2})#{sep}/i or

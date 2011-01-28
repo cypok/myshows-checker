@@ -1,0 +1,19 @@
+== MyShows Checker
+Checks given episodes at your profile on http://myshows.ru.
+
+=== Usage
+First create <tt>~/.myshows</tt> file with login and md5(password) line by line:
+  your-login
+  fe01ce2a7fbac8fafaed7c982a04e229
+
+To test authorization try to run checker without arguments and there should be no errors.
+  ruby checker.rb
+
+Now you can pass filenames with series episodes as args to checker:
+  ruby checker.rb "/long/path/to/V.s02e01.rus.LostFilm.TV.avi" "/long/path/to/V.s02e02.rus.LostFilm.TV.avi"
+If you watch this series (it is marked on myshows.ru) episodes 2x1 and 2x2 would be checked as watched.
+
+That's all, this tool could be easily integrated to your file manager for more convenience.
+
+=== Author
+Vladimir Parfinenko, write at vladimir[dot]parfinenko[at]gmail[dot]com
