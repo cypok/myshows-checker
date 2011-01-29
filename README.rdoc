@@ -1,16 +1,24 @@
 == MyShows Checker
 Checks given episodes at your profile on http://myshows.ru.
 
+=== Installation
+Download last version of myshows-checker
+  wget https://github.com/cypok/myshows-checker/raw/master/myshows-checker
+copy to directory that is in your PATH (i.e. ~/bin) and make it executable
+  chmod +x myshows-checker
+
 === Usage
 First create <tt>~/.myshows</tt> file with login and md5(password) line by line:
   your-login
   fe01ce2a7fbac8fafaed7c982a04e229
+And you would better make it readable only by you:
+  chmod 600 ~/.myshows
 
 To test authorization try to run checker without arguments and there should be no errors.
-  ruby checker.rb
+  myshows-checker
 
 Now you can pass filenames with series episodes as args to checker:
-  ruby checker.rb "/long/path/to/V.s02e01.rus.LostFilm.TV.avi" "/long/path/to/V.s02e02.rus.LostFilm.TV.avi"
+  myshows-checker "/long/path/to/V.s02e01.rus.LostFilm.TV.avi" "/long/path/to/V.s02e02.rus.LostFilm.TV.avi"
 If you watch this series (it is marked on myshows.ru) episodes 2x1 and 2x2 would be checked as watched.
 
 That's all, this tool could be easily integrated to your file manager for more convenience.
