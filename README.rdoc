@@ -2,7 +2,7 @@
 Checks given episodes at your profile on http://myshows.ru.
 
 === Installation
-You should have intalled
+You should have installed
 * Ruby: http://www.ruby-lang.org/en/downloads/
 * RubyGems: https://rubygems.org/pages/download
 * myshows gem: execute a shell command "gem install myshows"
