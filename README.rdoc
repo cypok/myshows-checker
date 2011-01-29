@@ -2,7 +2,12 @@
 Checks given episodes at your profile on http://myshows.ru.
 
 === Installation
-Download last version of myshows-checker
+You should have intalled
+* Ruby: http://www.ruby-lang.org/en/downloads/
+* RubyGems: https://rubygems.org/pages/download
+* myshows gem: execute a shell command "gem install myshows"
+
+Download the latest version of myshows-checker
   wget https://github.com/cypok/myshows-checker/raw/master/myshows-checker
 copy to directory that is in your PATH (i.e. ~/bin) and make it executable
   chmod +x myshows-checker
