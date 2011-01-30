@@ -23,6 +23,8 @@ begin
   f = File.open(File.expand_path('~/.myshows'), 'r')
   profile = MyShows::Profile.new f.gets.strip, f.gets.strip
   f.close
+
+  search = MyShows::Search.new
 rescue Exception => e
   err e.message
   exit 1
@@ -30,13 +32,20 @@ end
 
 ARGV.each do |path|
   begin
-    show_title, season_num, episode_num = parse_filename(File.basename(path))
-
-    show = profile.show(show_title)
-    ep = show.episode(season_num || 1, episode_num)
-    ep.check!
-
-    msg "Checked #{ep}"
+    file = File.basename(path)
+    episodes = search.episodes_by_filename(file)
+    unless episodes.empty?
+      episodes.each do |ep|
+        ep.check!
+        msg "Checked #{ep}"
+      end
+    else
+      show_title, season_num, episode_num = parse_filename(file)
+      show = profile.show(show_title)
+      ep = show.episode(season_num || 1, episode_num)
+      ep.check!
+      msg "Checked #{ep}"
+    end
   rescue Exception => e
     err e.message
     next
