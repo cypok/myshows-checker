@@ -47,7 +47,7 @@ ARGV.each do |path|
   begin
     file = File.basename(path)
     episodes = search.episodes_by_filename(file)
-    unless true #episodes.empty?
+    unless episodes.empty?
       episodes.each { |ep| check ep }
     else
       show_title, season_num, episodes_num = parse_filename(file)
