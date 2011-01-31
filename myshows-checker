@@ -8,15 +8,28 @@ def err(text); puts "Error: #{text}" end
 
 def parse_filename(filename)
   sep = /[. _]/
-  filename =~ /^(.*)#{sep}s(\d{1,2})#{sep}?e(\d{1,2})#{sep}/i or # Foo.s01.e02....
-  filename =~ /^(.*)#{sep}-#{sep}(\d{1,2})x(\d{1,2})#{sep}/i or  # Foo - 1x02 ...
-  filename =~ /^(.*)#{sep}()(\d{1,2})#{sep}/i or                 # Foo_02_...
+
+  # Foo.s01.e01{.e02}....
+  filename =~ /^(.*)#{sep}s(\d{1,2})#{sep}?e(\d{1,2})(?:#{sep}?e(\d{1,2}))?#{sep}/i or
+  # Foo - 1x01{-02} ...
+  filename =~ /^(.*)#{sep}-#{sep}(\d{1,2})x(\d{1,2})(?:-(\d{1,2}))?#{sep}/i or
+  # Foo_02_...
+  filename =~ /^(.*)#{sep}()(\d{1,2})#{sep}/i or
   raise "unrecognized series filename \"#{filename}\""
 
   name = $1
   season = $2
-  episode = $3
-  [name.gsub(sep, ' '), season.empty? ? nil : season.to_i, episode.to_i]
+  episodes = [$3, $4]
+  [
+    name.gsub(sep, ' '),
+    season.empty? ? 1 : season.to_i,
+    episodes.reject(&:nil?).map(&:to_i)
+  ]
+end
+
+def check(episode)
+  episode.check!
+  msg "Checked #{episode}"
 end
 
 begin
@@ -34,17 +47,14 @@ ARGV.each do |path|
   begin
     file = File.basename(path)
     episodes = search.episodes_by_filename(file)
-    unless episodes.empty?
-      episodes.each do |ep|
-        ep.check!
-        msg "Checked #{ep}"
-      end
+    unless true #episodes.empty?
+      episodes.each { |ep| check ep }
     else
-      show_title, season_num, episode_num = parse_filename(file)
+      show_title, season_num, episodes_num = parse_filename(file)
       show = profile.show(show_title)
-      ep = show.episode(season_num || 1, episode_num)
-      ep.check!
-      msg "Checked #{ep}"
+      episodes_num.each do |episode_num|
+        check show.episode(season_num, episode_num)
+      end
     end
   rescue Exception => e
     err e.message
