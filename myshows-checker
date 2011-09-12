@@ -10,11 +10,13 @@ def parse_filename(filename)
   sep = /[. _]/
 
   # Foo.s01.e01{.e02}....
-  filename =~ /^(.*)#{sep}s(\d{1,2})#{sep}?e(\d{1,2})(?:#{sep}?e(\d{1,2}))?#{sep}/i or
+  filename =~ /^(.*)#{sep}s(\d{1,2})#{sep}?e(\d{1,2})(?:#{sep}?e(\d{1,2}))?/i or
   # Foo - 1x01{-02} ...
-  filename =~ /^(.*)#{sep}-#{sep}(\d{1,2})x(\d{1,2})(?:-(\d{1,2}))?#{sep}/i or
+  filename =~ /^(.*)#{sep}-#{sep}(\d{1,2})x(\d{1,2})(?:-(\d{1,2}))?/i or
+  # Foo_01_02_...
+  filename =~ /^(.*)#{sep}(\d{1,2})#{sep}(\d{1,2})/i or
   # Foo_02_...
-  filename =~ /^(.*)#{sep}()(\d{1,2})#{sep}/i or
+  filename =~ /^(.*)#{sep}()(\d{1,2})/i or
   raise "unrecognized series filename \"#{filename}\""
 
   name = $1
